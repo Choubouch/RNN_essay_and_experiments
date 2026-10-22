@@ -22,16 +22,21 @@ Cet article a retenu mon attention pour plusieurs raisons : il m'a d'abord sembl
 - pas si difficile a entrainer
 
 ### Un modèle simple
-N'ayant jamais eu l'occasion de m'intéresser en détail aux RNNs, j'ai tout d'abord trouvé que l'architecture de ce modèle était plutôt simple, en comparaison avec les résultats assez complexes auxquels elle donne lieu. L'idée de base du RNN consiste à appliquer récursivement une fonction $f$ sur une séquence de données $(x_t)$. Cette fonction produit une représentation intermédiaire ou cachée $h_t$ utilisée par le réseau pour faire ces prédictions. En notant $\theta$ les paramètres du réseau, on a $h_{(t+1)} = f(h_t, x_t, \theta) = \tanh(W h_t + U x_t + b)$ en général (les paramètres à apprendre sont les matrices $W$, $U$ et le biais $b$). Ce qui est intéressant ici est que la fonction $f$ est la même à chaque étape de la récursion. Cela permet au réseau de traiter des données de taille variable puisqu'il suffit juste d'appliquer la fonction $f$ autant de fois que nécessaire. 
+
+N'ayant jamais eu l'occasion de m'intéresser en détail aux RNNs, j'ai tout d'abord trouvé que l'architecture de ce modèle était plutôt simple en comparaison avec les résultats assez complexes auxquels elle donne lieu. L'idée de base du RNN consiste à appliquer récursivement une fonction $f$ sur une séquence de données $(x_t)$. Cette fonction produit une représentation intermédiaire ou cachée $h_t$ utilisée par le réseau pour faire ces prédictions. En notant $\theta$ les paramètres du réseau, on a $h_{(t+1)} = f(h_t, x_t, \theta) = \tanh(W h_t + U x_t + b)$ en général (les paramètres à apprendre sont les matrices $W$, $U$ et le biais $b$). Ce qui est intéressant ici est que la fonction $f$ est la même à chaque étape de la récursion. Cela permet au réseau de traiter des données de taille variable puisqu'il suffit juste d'appliquer la fonction $f$ autant de fois que nécessaire. 
 
 Cette apparente simplicité des RNNs peut malgré tout donner des résultats complexes. En effet, il peut sembler contre-intuitif de pouvoir générer un texte cohérent avec une fonction qui ne prend en paramètre que le token courant $x_t$. Mais en réalité, l'état caché $h_t$ intègre l'ensemble du texte déjà généré, et cela permet au RNN d'avoir une mémoire. C'est pourquoi, dans l'exemple donné par A. Karpathy, un RNN qui doit générer le mot "hello" lettre par lettre est capable de prédire la lettre "l" après le premier "l", puis la lettre "o" après le second. 
 
 Pour augmenter la complexité et la puissance du modèle, il est possible de combiner deux RNNs pour faire un réseau à deux couches (cela consiste à connecter la sortie du premier réseau à l'entrée du second), et l'auteur conseille également d'utiliser une architecture _Long Short-Term Memory (LSTM)_ pour limiter le phénomène de gradient évanescent lors de l'entraînement (la matrice $W$ multiplie le vecteur $h$ plusieurs fois d'affilée, ce qui fait que l'information passée tend exponentiellement vers $0$ ou explose au bout de quelques itérations). 
+
+### Apprentissage de relations complexes
+
+Malgré une architecture assez simple, et une réputation de modèle difficile à entrainer, l'auteur soutient l'inverse dans son blog, et le démontre avec les résultats obtenus. Le LSTM entraîné est capable d'appendre une langue, une syntaxe et un vocabulaire assez rapidement (il peut s'agir d'une langue "humaine" comme l'anglais, ou bien un langage informatique). Le fait que le programme apprenne la structure de la langue au fur et à mesure sans avoir reçu d'indication m'a semblé particulièrement intéressant. Le modèle commence par apprendre les règles les plus simples (en moyenne, les mots font quelques caractères, il y a régulièrement des sauts de ligne et de la ponctuation ...), avant d'approfondir sa "compréhension" de la langue (accords, conjugaison ...). Pour cela, même si aucune indication n'est donnée, certains neurones se spécialisent et deviennent humainement interprétables (détection des parenthèses, des urls ...). On remarque ainsi qu'une structure logique émerge des données, sans connaissance préalable. 
 
 ## La surprenante simplicité des RNNs
 - pas de tokeniser
 - petits datasets 
 - pas d'attention
 - il bullshit bien
-
+ a
 ## Idées d'expérimentations
