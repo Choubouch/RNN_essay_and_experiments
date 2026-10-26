@@ -51,3 +51,5 @@ Pour mesurer l'impact de l'utilisation de tokens sur les performances, il serait
 ## V - Conclusion
 
 Cet article démontre qu'une tâche simple et locale, permet au RNN de générer des exemples convaincants avec une structure globale complexe. L'architecture récurrente du modèle lui permet de mémoriser certaines informations au fur et à mesure, ce qui explique probablement une partie de son succès. Toutefois, générer des exemples convaincants ne montre pas non plus que le modèle "comprends" réellement ce qu'il produit. Enfin, malgré un modèle performant, il est intéressant de noter que cela n'a pas empêché eux _transformers_ de s'imposer par la suite.
+
+PS : pour test l'efficacité des RNNs par moi-même, suivre les préceptes de Confucius, et faire honneur à la France, j'ai implémenté dans [ce repo](https://github.com/Choubouch/RNN_essay_and_experiments) un modèle permettant de générer des noms de communes françaises. 
