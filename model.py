@@ -54,18 +54,14 @@ class LSTMLayer(nn.Module):
 
     def forward(self, x):
         seq_len = x.shape[0]
-
         h = torch.zeros(self.hiddenSize)
         c = torch.zeros(self.hiddenSize)
         outputs = []
-
-        # 4. Parcourir chaque instant de la séquence
         for t in range(seq_len):
             x_t = x[t]
             h, c = self.cell(x_t, h, c)
             outputs.append(h)
         outputs = torch.stack(outputs)
-
         return outputs, h, c
 
 class LSTMv2(nn.Module):
