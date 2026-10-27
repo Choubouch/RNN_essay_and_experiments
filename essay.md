@@ -44,11 +44,11 @@ Les LLMs sont connus pour générer des textes convaincants en apparence, mais f
 
 Une expérience qui pourrait prolonger ce travail serait d'étudier l'effet de la représentation du texte sur les performances du RNN. L'utilisation de tokens pourrait simplifier l'apprentissage en injectant plus de connaissances sur le langage appris. Pour vérifier cela, il faudrait entraîner le même modèle sur les mêmes données, mais en ajoutant une étape de prétraitement pour regrouper certains caractères entre eux (_byte pair encoding_).  
 
-Pour mesurer l'impact de l'utilisation de tokens sur les performances, il serait intéressant de suivre l'évolution de mesures statistiques (log-vraisemblance ou perplexité), mais aussi d'essayer de mesurer si le texte généré est sémantiquement correct (et n'a pas juste une apparence de texte correct). Cela devrait par exemple être possible en demandant à un LLM plus performant si les phrases générées font sens. La durée d'entraînement pourrait également montrer un éventuel gain d'efficacité. 
+Pour mesurer l'impact de l'utilisation de tokens sur les performances, il serait intéressant de suivre l'évolution de mesures statistiques (log-vraisemblance ou perplexité), mais aussi d'essayer de mesurer si le texte généré est sémantiquement correct (et n'a pas juste une apparence de texte correct). Cela devrait par exemple être possible en demandant à un LLM plus performant si les phrases générées ont du sens. La durée d'entraînement pourrait également montrer un éventuel gain d'efficacité. 
 
 
 ## V - Conclusion
 
 Cet article démontre qu'une tâche simple et locale, permet au RNN de générer des exemples convaincants avec une structure globale complexe. L'architecture récurrente du modèle lui permet de mémoriser certaines informations au fur et à mesure, ce qui explique probablement une partie de son succès. Toutefois, générer des exemples convaincants ne montre pas non plus que le modèle "comprend" réellement ce qu'il produit. Enfin, malgré un modèle performant, il est intéressant de noter que cela n'a pas empêché aux _transformers_ de s'imposer par la suite.
 
-PS : pour test l'efficacité des RNNs par moi-même, suivre les préceptes de Confucius, et faire honneur à la France, j'ai implémenté dans [ce repo](https://github.com/Choubouch/RNN_essay_and_experiments) un modèle permettant de générer des noms de communes françaises. 
+PS : pour test l'efficacité des RNNs par moi-même, suivre les préceptes de Confucius, et par esprit patriotique, j'ai implémenté dans [ce repo](https://github.com/Choubouch/RNN_essay_and_experiments) un modèle permettant de générer des noms de communes françaises. 
