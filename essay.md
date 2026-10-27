@@ -4,7 +4,7 @@
 
 ## I - Introduction
 
-Depuis 2017, avec la publication de l'article [_Attention is all you need_](https://arxiv.org/abs/1706.03762), l'architecture de _transformer_ est devenue standard dans le monde des LLM. Le mécanisme d'attention est aujourd'hui largement répandu, mais il n'en a pas toujours été ainsi. 
+Depuis 2017, avec la publication de l'article [_Attention is all you need_](https://arxiv.org/abs/1706.03762), l'architecture de _transformer_ est devenue standard dans le monde des _LLMs_. Le mécanisme d'attention est aujourd'hui largement répandu, mais il n'en a pas toujours été ainsi. 
 
 Cet article de blog intitulé [_The Unreasonable Effectiveness of Recurrent Neural Networks_](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) et publié en mai 2015 par Andrej Karpathy (ancien chercheur chez _OpenAI_) montre qu'il y a seulement 11 ans, les _transformers_ n'avaient pas encore émergés, et des architectures alternatives comme les _Recurrent Neural Networks_ (RNNs) étaient envisagées. 
 
@@ -13,8 +13,7 @@ Dans son blog, A. Karpathy présente le fonctionnement général des RNNs, ainsi
 Cet article a retenu mon attention pour plusieurs raisons : il m'a d'abord semblé intéressant de voir l'état de la recherche sur les LLMs au début de leur démocratisation, ensuite A. Karpathy explique dès le début que les RNNs permettent d'avoir des résultats bluffants avec de petits modèles pouvant tourner en local, et enfin je n'ai jamais eu l'occasion de m'intéresser en détail aux RNNs, et cela me semblait important pour ma culture personnelle. 
 
 
-## II - Ce qui m'a intéressé 
-
+## II - Un article intéressant
 
 ### Un modèle simple
 
@@ -28,10 +27,10 @@ Pour augmenter la complexité et la puissance du modèle, il est possible de com
 
 Malgré une architecture assez simple, et une réputation de modèle difficile à entrainer, l'auteur soutient l'inverse dans son blog. Le LSTM entraîné est capable d'appendre une langue et des règles de syntaxe assez rapidement (il peut s'agir d'une langue "humaine" comme l'anglais, ou bien un langage informatique). Le fait que le programme apprenne la structure de la langue au fur et à mesure sans avoir reçu d'indication m'a semblé particulièrement intéressant. Le modèle commence par apprendre les règles les plus simples (taille des mots, ponctuation ...), avant d'approfondir sa "compréhension" de la langue (accords, conjugaison ...). Pour cela, même si aucune indication n'est donnée, certains neurones se spécialisent et deviennent humainement interprétables (détection des parenthèses, des urls ...). On remarque ainsi qu'une structure logique émerge des données, sans connaissance préalable. Pour satisfaire l'objectif de prédiction du prochain caractère, il est ainsi intéressant pour le RNN de retenir et de structurer certaines informations dans son état caché.
 
-## III - Ce qui m'a surpris 
+## III - Des détails surprenants
 ### Absence de _tokenizer_ et petits datasets
 
-Selon moi, un des points les plus surprenants des résultats montrés est la capacité du RNN à avoir de bonnes performances malgré une absence de connaissances _a priori_ du langage appris. L'auteur n'utilise pas de _tokenizer_, ni d'_embbedings_ pré-entrainés, mais donne directement l'encodage one-hot des lettres au RNN. Cela complexifie la tâche à réaliser puisque certaines connaissances que l'on a du langage (par exemple : on trouve rarement un "w" après un "x" dans les mots anglais) ne sont pas données au RNN pendant l'entraînement. Le modèle doit donc apprendre simultanément des structures à différentes échelles : à petite échelle (enchaînement valide de lettres), à moyenne échelle (taille des mots, enchaînement sujet-verbe ...) et à plus grande échelle (création de paragraphes, fermeture de parenthèse ...). 
+Selon moi, un des points les plus surprenants des résultats montrés est la capacité du RNN à avoir de bonnes performances malgré une absence de connaissances _a priori_ du langage appris. L'auteur n'utilise pas de _tokenizer_, ni d'_embbedings_ pré-entrainés, mais donne directement l'encodage _one-hot_ des lettres au RNN. Cela complexifie la tâche à réaliser puisque certaines connaissances que l'on a du langage (par exemple : on trouve rarement un "w" après un "x" dans les mots anglais) ne sont pas données au RNN pendant l'entraînement. Le modèle doit donc apprendre simultanément des structures à différentes échelles : à petite échelle (enchaînement valide de lettres), à moyenne échelle (taille des mots, enchaînement sujet-verbe ...) et à plus grande échelle (création de paragraphes, fermeture de parenthèse ...). 
 
 Enfin, la taille des datasets utilisés m'a également parue relativement faible. Dans le cas des essais de Paul Graham ou des textes de Shakespeare, les datasets ne faisaient que quelques MB, ce qui permet malgré tout au modèle d'apprendre la langue et le style d'écriture.
 
@@ -43,13 +42,13 @@ Les LLMs sont connus pour générer des textes convaincants en apparence, mais f
 
 ### Représentation du texte et performances
 
-Une expérience qui pourrait prolonger ce travail serait d'étudier l'effet de la représentation du texte sur les performances du RNN. L'utilisation de tokens pourrait simplifier l'apprentissage en injectant plus de connaissance sur le langage appris. Pour vérifier cela, il faudrait entraîner le même modèle sur les mêmes données, mais en ajoutant une étape de prétraitement pour regrouper certains caractères entre eux (_byte pair encoding_).  
+Une expérience qui pourrait prolonger ce travail serait d'étudier l'effet de la représentation du texte sur les performances du RNN. L'utilisation de tokens pourrait simplifier l'apprentissage en injectant plus de connaissances sur le langage appris. Pour vérifier cela, il faudrait entraîner le même modèle sur les mêmes données, mais en ajoutant une étape de prétraitement pour regrouper certains caractères entre eux (_byte pair encoding_).  
 
 Pour mesurer l'impact de l'utilisation de tokens sur les performances, il serait intéressant de suivre l'évolution de mesures statistiques (log-vraisemblance ou perplexité), mais aussi d'essayer de mesurer si le texte généré est sémantiquement correct (et n'a pas juste une apparence de texte correct). Cela devrait par exemple être possible en demandant à un LLM plus performant si les phrases générées font sens. La durée d'entraînement pourrait également montrer un éventuel gain d'efficacité. 
 
 
 ## V - Conclusion
 
-Cet article démontre qu'une tâche simple et locale, permet au RNN de générer des exemples convaincants avec une structure globale complexe. L'architecture récurrente du modèle lui permet de mémoriser certaines informations au fur et à mesure, ce qui explique probablement une partie de son succès. Toutefois, générer des exemples convaincants ne montre pas non plus que le modèle "comprends" réellement ce qu'il produit. Enfin, malgré un modèle performant, il est intéressant de noter que cela n'a pas empêché aux _transformers_ de s'imposer par la suite.
+Cet article démontre qu'une tâche simple et locale, permet au RNN de générer des exemples convaincants avec une structure globale complexe. L'architecture récurrente du modèle lui permet de mémoriser certaines informations au fur et à mesure, ce qui explique probablement une partie de son succès. Toutefois, générer des exemples convaincants ne montre pas non plus que le modèle "comprend" réellement ce qu'il produit. Enfin, malgré un modèle performant, il est intéressant de noter que cela n'a pas empêché aux _transformers_ de s'imposer par la suite.
 
 PS : pour test l'efficacité des RNNs par moi-même, suivre les préceptes de Confucius, et faire honneur à la France, j'ai implémenté dans [ce repo](https://github.com/Choubouch/RNN_essay_and_experiments) un modèle permettant de générer des noms de communes françaises. 
